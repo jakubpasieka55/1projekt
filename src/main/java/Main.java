@@ -1,51 +1,68 @@
 
+/*4.3
+Kod bazowy programu Commit4_0:
+• Program dodaje do prostej bazy danych (pliku db.txt) dane odnośnie Studentów.
+• Studenci dodawani są w klasie Main.
+• Wszyscy studenci są wypisywani na końcu klasy Main.
+• Klasa Service obsługuje odczyt i zapis do pliku bazy danych.
+• Klasa Student reprezentuje pojedynczego studenta (Imię, Wiek).
+*/
+
 import java.io.IOException;
+import java.util.Scanner;
 
 class Main {
   public static void main(String[] args) {
     try {
       Service s = new Service();
-      java.util.Scanner scanner = new java.util.Scanner(System.in);
-      boolean running = true;
-      
-      while(running) {
-        System.out.println("\nMenu:");
-        System.out.println("1. Dodaj studenta");
-        System.out.println("2. Wyświetl listę studentów");
-        System.out.println("3. Zakończ program");
-        System.out.print("Wybierz opcję: ");
-        
-        int choice = scanner.nextInt();
-        scanner.nextLine(); // consume newline
-        
-        switch(choice) {
+      Scanner scanner = new Scanner(System.in);
+
+      boolean tak = true;
+      while(tak){
+        System.out.println("\nWybierz opcję:");
+        System.out.println("1 - Dodaj studenta");
+        System.out.println("2 - Wyświetl wszystkich studentów");
+        System.out.print("Twój wybór: ");
+        int choice = Integer.parseInt(scanner.nextLine());
+
+        switch (choice) {
           case 1:
-            System.out.println("Podaj imie studenta:");
+            System.out.print("Podaj imię studenta: ");
             String name = scanner.nextLine();
-            System.out.println("Podaj wiek studenta:");
-            int age = scanner.nextInt();
-            s.addStudent(new Student(name, age));
+
+            System.out.print("Podaj nazwisko studenta: ");
+            String lastname = scanner.nextLine();
+
+            int age = 0;
+            boolean validAge = false;
+            while (!validAge) {
+              System.out.print("Podaj wiek studenta: ");
+              try {
+                age = Integer.parseInt(scanner.nextLine());
+                validAge = true;
+              } catch (NumberFormatException e) {
+                System.out.println("Wiek musi być liczbą. Spróbuj ponownie.");
+              }
+            }
+
+            s.addStudent(new Student(name, lastname, age));
+            System.out.println(" Dodano studenta.");
             break;
-            
+
           case 2:
             var students = s.getStudents();
-            System.out.println("\nLista studentów:");
-            for(Student current : students) {
-              System.out.println(current.ToString());
+            System.out.println("📋 Lista studentów:");
+            for (Student current : students) {
+              System.out.println(current.toString());
             }
             break;
-            
-          case 3:
-            running = false;
-            System.out.println("Program zakończony.");
-            break;
-            
-          default:
-            System.out.println("Nieprawidłowa opcja!");
         }
       }
+      scanner.close();
+
+
     } catch (IOException e) {
-      System.out.println("Błąd: " + e.getMessage());
+
     }
   }
 }
