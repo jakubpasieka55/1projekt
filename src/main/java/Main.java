@@ -13,8 +13,14 @@ class Main {
   public static void main(String[] args) {
     try {
       Service s = new Service();
+      java.util.Scanner scanner = new java.util.Scanner(System.in);
       
-
+      System.out.println("Podaj imie studenta:");
+      String name = scanner.nextLine();
+      System.out.println("Podaj wiek studenta:");
+      int age = scanner.nextInt();
+      
+      s.addStudent(new Student(name, age));
       var students = s.getStudents();
       for(Student current : students) {
         System.out.println(current.ToString());
