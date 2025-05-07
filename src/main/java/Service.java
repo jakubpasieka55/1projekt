@@ -65,4 +65,31 @@ public class Service {
     
     return found;
   }
+
+  public boolean updateStudentAge(String name, String lastName, int newAge) throws IOException {
+    Collection<Student> students = getStudents();
+    Collection<Student> updated = new ArrayList<>();
+    boolean found = false;
+    
+    for (Student st : students) {
+      if (st.getName().equalsIgnoreCase(name) && st.getLastName().equalsIgnoreCase(lastName)) {
+        updated.add(new Student(st.getName(), st.getLastName(), newAge, st.getBirthDate()));
+        found = true;
+      } else {
+        updated.add(st);
+      }
+    }
+    
+    if (found) {
+      var writer = new FileWriter("db.txt");
+      var buffWriter = new BufferedWriter(writer);
+      for (Student st : updated) {
+        buffWriter.write(st.toString());
+        buffWriter.newLine();
+      }
+      buffWriter.close();
+    }
+    
+    return found;
+  }
 }

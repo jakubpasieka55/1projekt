@@ -15,7 +15,8 @@ class Main {
         System.out.println("2 - Wyświetl wszystkich studentów");
         System.out.println("3 - Znajdź studentów po imieniu");
         System.out.println("4 - Usuń studenta");
-        System.out.println("5 - Zakończ program");
+        System.out.println("5 - Zaktualizuj dane studenta");
+        System.out.println("6 - Zakończ program");
         System.out.print("Twój wybór: ");
         int choice;
         try {
@@ -107,6 +108,26 @@ class Main {
             break;
             
           case 5:
+            System.out.print("Podaj imię studenta do aktualizacji: ");
+            String updateName = scanner.nextLine();
+            System.out.print("Podaj nazwisko studenta do aktualizacji: ");
+            String updateLastName = scanner.nextLine();
+            
+            System.out.print("Podaj nowy wiek studenta: ");
+            int newAge = 0;
+            try {
+              newAge = Integer.parseInt(scanner.nextLine());
+              if (s.updateStudentAge(updateName, updateLastName, newAge)) {
+                System.out.println("Dane studenta zostały zaktualizowane.");
+              } else {
+                System.out.println("Nie znaleziono studenta o podanym imieniu i nazwisku.");
+              }
+            } catch (NumberFormatException e) {
+              System.out.println("Nieprawidłowy wiek!");
+            }
+            break;
+
+          case 6:
             running = false;
             System.out.println("Zamykam program.");
             break;
