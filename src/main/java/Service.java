@@ -20,18 +20,23 @@ public class Service {
     var ret = new ArrayList<Student>();
     var f = new FileReader("db.txt");
     var reader = new BufferedReader(f);
-    String line = "";
-    while (true) {
-      line = reader.readLine();
-      if(line == null)
-        break;
+    String line;
+    while ((line = reader.readLine()) != null) {
       ret.add(Student.parse(line));
     }
     reader.close();
     return ret;
   }
 
-  public Student findStudentByName(String name) {
-    return null;
+  // Metoda wyszukująca wszystkich studentów o podanym imieniu
+  public Collection<Student> findStudentsByName(String name) throws IOException {
+    Collection<Student> students = getStudents();
+    Collection<Student> result = new ArrayList<>();
+    for (Student st : students) {
+      if (st.getName().equalsIgnoreCase(name)) {
+        result.add(st);
+      }
+    }
+    return result;
   }
 }
