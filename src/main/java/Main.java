@@ -1,6 +1,8 @@
-
 import java.io.IOException;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 class Main {
   public static void main(String[] args) {
@@ -9,7 +11,7 @@ class Main {
       Scanner scanner = new Scanner(System.in);
 
       boolean tak = true;
-      while(tak){
+      while (tak) {
         System.out.println("\nWybierz opcję:");
         System.out.println("1 - Dodaj studenta");
         System.out.println("2 - Wyświetl wszystkich studentów");
@@ -36,8 +38,25 @@ class Main {
               }
             }
 
-            System.out.print("Podaj datę urodzenia (DD-MM-RRRR): ");
-            String birthDate = scanner.nextLine();
+            // Walidacja daty urodzenia
+            String birthDate = "";
+            boolean validDate = false;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            while (!validDate) {
+              System.out.print("Podaj datę urodzenia studenta (dd-MM-yyyy): ");
+              String inputDate = scanner.nextLine();
+              try {
+                LocalDate date = LocalDate.parse(inputDate, formatter);
+                if (date.isAfter(LocalDate.now())) {
+                  System.out.println("Data urodzenia nie może być z przyszłości. Spróbuj ponownie.");
+                } else {
+                  birthDate = inputDate;
+                  validDate = true;
+                }
+              } catch (DateTimeParseException e) {
+                System.out.println("Niepoprawny format daty lub data nie istnieje. Spróbuj ponownie używając formatu dd-MM-yyyy.");
+              }
+            }
 
             s.addStudent(new Student(name, lastname, age, birthDate));
             System.out.println("Dodano studenta.");
@@ -50,11 +69,16 @@ class Main {
               System.out.println(current.toString());
             }
             break;
+
+          default:
+            System.out.println("Niepoprawna opcja. Spróbuj ponownie.");
+            break;
         }
       }
       scanner.close();
-    } catch (IOException e) {
 
+    } catch (IOException e) {
+      System.out.println("Wystąpił błąd: " + e.getMessage());
     }
   }
 }
