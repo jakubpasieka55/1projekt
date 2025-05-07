@@ -14,7 +14,8 @@ class Main {
         System.out.println("1 - Dodaj studenta");
         System.out.println("2 - Wyświetl wszystkich studentów");
         System.out.println("3 - Znajdź studentów po imieniu");
-        System.out.println("4 - Zakończ program");
+        System.out.println("4 - Usuń studenta");
+        System.out.println("5 - Zakończ program");
         System.out.print("Twój wybór: ");
         int choice;
         try {
@@ -93,6 +94,19 @@ class Main {
             break;
 
           case 4:
+            System.out.print("Podaj imię studenta do usunięcia: ");
+            String deleteName = scanner.nextLine();
+            System.out.print("Podaj nazwisko studenta do usunięcia: ");
+            String deleteLastName = scanner.nextLine();
+            
+            if (s.deleteStudent(deleteName, deleteLastName)) {
+              System.out.println("Student został usunięty.");
+            } else {
+              System.out.println("Nie znaleziono studenta o podanym imieniu i nazwisku.");
+            }
+            break;
+            
+          case 5:
             running = false;
             System.out.println("Zamykam program.");
             break;

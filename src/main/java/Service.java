@@ -39,4 +39,30 @@ public class Service {
     }
     return result;
   }
+
+  public boolean deleteStudent(String name, String lastName) throws IOException {
+    Collection<Student> students = getStudents();
+    Collection<Student> remaining = new ArrayList<>();
+    boolean found = false;
+    
+    for (Student st : students) {
+      if (!st.getName().equalsIgnoreCase(name) || !st.getLastName().equalsIgnoreCase(lastName)) {
+        remaining.add(st);
+      } else {
+        found = true;
+      }
+    }
+    
+    if (found) {
+      var writer = new FileWriter("db.txt");
+      var buffWriter = new BufferedWriter(writer);
+      for (Student st : remaining) {
+        buffWriter.write(st.toString());
+        buffWriter.newLine();
+      }
+      buffWriter.close();
+    }
+    
+    return found;
+  }
 }
